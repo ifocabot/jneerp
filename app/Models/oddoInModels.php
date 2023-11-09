@@ -20,4 +20,8 @@ class oddoInModels extends Model
         return $this->hasOne(OddoHistoryModels::class,'oddoin_id');
     }
 
+    public function areas()
+    {
+        return $this->belongsTo(areaModels::class,'areas_id');
+    }
 }

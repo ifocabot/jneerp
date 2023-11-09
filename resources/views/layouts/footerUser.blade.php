@@ -1,12 +1,10 @@
-
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script>
-
     $(document).ready(function() {
-    $('.js-example-basic-multiple').select2();
+    $('.js-example-basic-single').select2();
     });
 
     $(document).ready(function() {
@@ -75,5 +73,47 @@
         });
     }
 </script>
+
+<script>
+    // Get the input element and checkbox element
+    var odometerInput = document.getElementById('oddo_meter_out');
+    var enableInputCheckbox = document.getElementById('enableInput');
+
+    // Add event listener to the checkbox
+    enableInputCheckbox.addEventListener('change', function() {
+        // If checkbox is checked, remove the readonly attribute; otherwise, add it
+        odometerInput.readOnly = !enableInputCheckbox.checked;
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        var safetyToolsSelect = $("#safetyTools");
+        var checkbox = $("#checkbox");
+
+        safetyToolsSelect.select2();
+
+        checkbox.click(function () {
+            if (checkbox.is(':checked')) {
+                safetyToolsSelect.find('option').prop('selected', true);
+            } else {
+                safetyToolsSelect.find('option').prop('selected', false);
+            }
+
+            safetyToolsSelect.trigger('change');
+        });
+
+        safetyToolsSelect.on('change', function () {
+            var allSelected = safetyToolsSelect.find('option').length === safetyToolsSelect.find('option:selected').length;
+            checkbox.prop('checked', allSelected);
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+    $('.js-example-basic-multiple').select2();
+    });
+</script>
 </body>
+
 </html>

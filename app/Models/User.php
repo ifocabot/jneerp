@@ -21,6 +21,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'division',
+        'role',
+        'user_low_end',
+        'employee_number',
+        'role'
     ];
 
     /**
@@ -46,5 +51,10 @@ class User extends Authenticatable
     public function oddohistory()
     {
         return $this->belongsTo(OddoHistoryModels::class,'users_id');
+    }
+
+    public function gasolinhistory()
+    {
+        return $this->belongsTo(gasolineHistoryModels::class,'users_id');
     }
 }
