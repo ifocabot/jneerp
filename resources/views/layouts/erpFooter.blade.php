@@ -40,8 +40,6 @@
 <script src="{{ asset('js/scripts.js') }}"></script>
 <script src="{{ asset('js/custom.js') }}"></script>
 <script src="{{ asset('js/daterangepicker.js') }}"></script>
-
-
 <script>
     $(document).ready(function() {
     table = $('#myTable').DataTable({
@@ -102,7 +100,6 @@
         table.ajax.reload();
     });
 });
-
 </script>
 
 
@@ -187,7 +184,6 @@
     });
 </script>
 
-
 <script>
     $(document).ready(function() {
         test = $('#dataUser').DataTable({
@@ -242,7 +238,6 @@
         });
     });
 </script>
-
 
 <script>
     $(document).ready(function() {

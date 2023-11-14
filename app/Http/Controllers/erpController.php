@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+
+use Illuminate\Support\Facades\DB;
 use App\Models\areaModels;
 use App\Models\gasolineHistoryModels;
 use App\Models\gasolineModels;
@@ -9,8 +11,10 @@ use App\Models\kendaraanModels;
 use App\Models\oddoHistoryModels;
 use App\Models\tipekendaraanModels;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
+
 
 
 class erpController extends Controller
@@ -25,6 +29,73 @@ class erpController extends Controller
         $kendaraanavailable = kendaraanModels::where('is_available','=','1')->count();
         $kendaraansakit = kendaraanModels::where('is_service','=','1')->count();
         $oddohistory = oddoHistoryModels::with(['vehicles','oddoin','users','oddoout'])->orderBy('updated_at','desc')->take('5')->get();
+        $gasolinehistory = gasolineHistoryModels::all();
+
+        $divisions = ['inbound', 'outbound', 'delivery'];
+
+        $results = [];
+
+        foreach ($divisions as $division) {
+            $data = oddoHistoryModels::whereHas('users', function ($query) use ($division) {
+                    $query->where('division', '=', $division);
+                })
+                ->select(
+                    DB::raw('WEEK(created_at) as week_number'),
+                    DB::raw('YEAR(created_at) as year_number'),
+                    DB::raw('MIN(created_at) as start_date'),
+                    DB::raw('MAX(created_at) as end_date'),
+                    DB::raw('SUM(total_kilometer) as total_kilometer_per_week'),
+                    DB::raw('SUM(convert_bensin) as total_bensin_per_week'),
+                    DB::raw('SUM(cost) as total_cost_per_week')
+                )
+                ->groupBy('week_number', 'year_number')
+                ->get();
+
+            $results[$division] = $data;
+
+            // Menambahkan informasi tanggal ke setiap data
+            foreach ($results[$division] as $item) {
+                $item->start_date = Carbon::now()->setISODate($item->year_number, $item->week_number, 1)->format('d M Y');
+                $item->end_date = Carbon::now()->setISODate($item->year_number, $item->week_number, 7)->format('d M Y');
+            }
+        }
+
+        // Mengambil data untuk inbound
+        $inboundData = $results['inbound'];
+
+        // Mengambil data untuk outbound
+        $outboundData = $results['outbound'];
+
+        // Mengambil data untuk delivery
+        $deliveryData = $results['delivery'];
+
+        // Modifikasi query untuk mendapatkan total pembelian per hari
+        $gasoline1Data = DB::table('gasoline_history')
+            ->where('gasoline_id', '=', '1')
+            ->selectRaw('DATE(created_at) as tanggal, SUM(total_pembelian) as total_pembelian_per_hari')
+            ->groupBy(
+                DB::raw('DATE(created_at)'),
+                DB::raw('CASE WHEN MOD(DAY(created_at) - 6, 7) IN (0, 1) THEN 1 WHEN MOD(DAY(created_at) - 8, 7) IN (0, 1) THEN 2 ELSE 3 END')
+            )
+            ->orderBy('tanggal')
+            ->get();
+
+        $gasoline2Data = DB::table('gasoline_history')
+            ->where('gasoline_id', '=', '2')
+            ->selectRaw('DATE(created_at) as tanggal, SUM(total_pembelian) as total_pembelian_per_hari')
+            ->groupBy(
+                DB::raw('DATE(created_at)'),
+                DB::raw('CASE WHEN MOD(DAY(created_at) - 6, 7) IN (0, 1) THEN 1 WHEN MOD(DAY(created_at) - 8, 7) IN (0, 1) THEN 2 ELSE 3 END')
+            )
+            ->orderBy('tanggal')
+            ->get();
+
+        $datesGasoline1 = $gasoline1Data->pluck('tanggal');
+        $totalPembelianGasoline1 = $gasoline1Data->pluck('total_pembelian_per_hari');
+
+        $datesGasoline2 = $gasoline2Data->pluck('tanggal');
+        $totalPembelianGasoline2 = $gasoline2Data->pluck('total_pembelian_per_hari');
+
 
         return view('erp.erpDashboard', compact(
             'kendaraan',
@@ -32,8 +103,18 @@ class erpController extends Controller
             'kendaraanavailable',
             'oddohistory',
             'kendaraansakit',
-            'area'
+            'area',
+            'inboundData',
+            'outboundData',
+            'deliveryData',
+            'totalPembelianGasoline1',
+            'datesGasoline1',
+            'datesGasoline2',
+            'totalPembelianGasoline2'
         ));
+
+
+
     }
 
     //DASHBOARD MODUL END
@@ -203,6 +284,33 @@ class erpController extends Controller
             ->make(true);
     }
 
+    public function detailMobilPenuh(Request $request, $id){
+        // Using findOrFail to retrieve a record by ID from kendaraanController
+        $test = kendaraanModels::findOrFail($id);
+
+        $bensin = gasolineHistoryModels::where('vehicles_id',$id)->orderby('created_at','asc')->take(12)->get();
+
+        $oddo = oddoHistoryModels::where('vehicles_id',$id)->orderby('created_at','asc')->take(12)->get();
+
+        $monthlyData = oddoHistoryModels::select(
+            DB::raw('WEEK(created_at) as week_number'),
+            DB::raw('YEAR(created_at) as year_number'),
+            DB::raw('MIN(created_at) as start_date'),
+            DB::raw('MAX(created_at) as end_date'),
+            DB::raw('SUM(total_kilometer) as total_kilometer_per_week'),
+            DB::raw('SUM(convert_bensin) as total_bensin_per_week'),
+            DB::raw('SUM(cost) as total_cost_per_week')
+        )
+        ->whereMonth('created_at', 10) // Filter untuk bulan Oktober
+        ->where('vehicles_id', $id) // Filter based on the vehicle ID
+        ->groupBy('week_number', 'year_number')
+        ->get();
+
+        // Dump and die - displaying the information and stopping the execution
+        return dd([$bensin,$test,$oddo ,$monthlyData]);
+    }
+
+
     //MOBIL MODUL END
 
     //USERMODUL
@@ -320,53 +428,64 @@ class erpController extends Controller
 
     public function detailsMobil () {
         // Mengambil semua data dari tabel GasolineHistory
-        $gasolineHistories = gasolineHistoryModels::orderBy('created_at', 'asc')
-        ->groupBy('vehicles_id')
-        ->get();
+        $gasolineHistories = gasolineHistoryModels::orderBy('created_at', 'asc')->get();
+        $gasolineHistoriesgrouped = $gasolineHistories->groupBy('vehicles_id');
 
         // Inisialisasi array untuk menyimpan data per kendaraan
         $dataPerKendaraan = [];
 
-        foreach ($gasolineHistories as $gasolineHistory) {
-            // Mengambil data kendaraan terkait
-            $vehicle = kendaraanModels::find($gasolineHistory->vehicles_id);
-            $plat = $vehicle->nomor_plat;
+        foreach ($gasolineHistoriesgrouped as $vehicleId => $histories) {
+            // Mengambil entitas kendaraan hanya jika type_vehicles_id adalah 2
+            $vehicle = kendaraanModels::where('id', $vehicleId)
+                ->where('type_vehicles_id', 1)
+                ->first();
 
-            // Mengambil data ratio dari model typeKendaraan
-            $typeKendaraan = tipekendaraanModels::find($vehicle->type_vehicles_id);
-            $ratio = $typeKendaraan->ratio;
+            // Pastikan kendaraan ditemukan sebelum melanjutkan
+            if ($vehicle) {
+                $plat = $vehicle->nomor_plat;
 
-            // Mengambil data harga bensin
-            $hargabensin = gasolineModels::find($gasolineHistory->gasoline_id);
+                $typeKendaraan = tipekendaraanModels::find($vehicle->type_vehicles_id);
 
-            // Menghitung nilai yang diperlukan
-            $harga = $hargabensin->harga;
-            $odoMobil = $vehicle->last_oddo;
-            $odoPengisian = $gasolineHistory->oddo_terakhir;
-            $totalPembelian = $gasolineHistory->total_pembelian;
+                // Pastikan tipe kendaraan ditemukan sebelum melanjutkan
+                if ($typeKendaraan) {
+                    $ratio = $typeKendaraan->ratio;
 
-            $totalLiter = $totalPembelian / $harga;
-            $penggunaan = ($odoMobil - $odoPengisian) / $ratio;
-            $totalPenggunaan = 38 - $penggunaan;
-            $totalBensinSaatIni = ($totalPenggunaan / 38) * 100;
+                    $totalPembelian = 0;
+                    foreach ($histories as $history) {
+                        $totalPembelian += $history->total_pembelian;
+                    }
 
-            $estimasiPembelian = $penggunaan * $harga;
+                    $hargabensin = gasolineModels::find($histories[0]->gasoline_id);
 
-            // Menambahkan data per kendaraan ke array
-            $dataPerKendaraan[] = [
-                'vehicle' => $vehicle,
-                'plat' => $plat,
-                'ratio' => $ratio,
-                'harga' => $harga,
-                'odoMobil' => $odoMobil,
-                'odoPengisian' => $odoPengisian,
-                'totalPembelian' => $totalPembelian,
-                'totalLiter' => $totalLiter,
-                'penggunaan' => $penggunaan,
-                'totalPenggunaan' => $totalPenggunaan,
-                'totalBensinSaatIni' => $totalBensinSaatIni,
-                'estimasiPembelian' => $estimasiPembelian,
-            ];
+                    // Pastikan data bensin ditemukan sebelum melanjutkan
+                    if ($hargabensin) {
+                        $harga = $hargabensin->harga;
+                        $odoMobil = $vehicle->last_oddo;
+
+                        $odoPengisian = $histories->max('oddo_terakhir');
+                        $totalLiter = $totalPembelian / $harga;
+                        $penggunaan = ($odoMobil - $odoPengisian) / $ratio;
+                        $totalPenggunaan = 38 - $penggunaan;
+                        $totalBensinSaatIni = ($totalPenggunaan / 38) * 100;
+                        $estimasiPembelian = $penggunaan * $harga;
+
+                        $dataPerKendaraan[] = [
+                            'vehicle' => $vehicle,
+                            'plat' => $plat,
+                            'ratio' => $ratio,
+                            'harga' => $harga,
+                            'odoMobil' => $odoMobil,
+                            'odoPengisian' => $odoPengisian,
+                            'totalPembelian' => $totalPembelian,
+                            'totalLiter' => $totalLiter,
+                            'penggunaan' => $penggunaan,
+                            'totalPenggunaan' => $totalPenggunaan,
+                            'totalBensinSaatIni' => $totalBensinSaatIni,
+                            'estimasiPembelian' => $estimasiPembelian,
+                        ];
+                    }
+                }
+            }
         }
 
         // Pass data ke view
@@ -399,8 +518,6 @@ class erpController extends Controller
         return redirect()->route('daftarArea'); // Gantilah 'nama_rute' dengan rute yang sesuai
 
     }
-
-
     //AREA MODUL END
 
 }

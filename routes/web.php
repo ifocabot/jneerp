@@ -45,6 +45,7 @@
 
         //mobilModul
         route::get('/erp/vehicles',[erpController::class,'vehiclesview'])->name('oddo.vehicles');
+        route::get('/erp/vehicles/{id}',[erpController::class,'detailMobilPenuh'])->name('detailMobilPenuh');
         route::get('/erp/vehiclesajax',[erpController::class,'vehiclesAjax'])->name('oddo.vehicles.data');
         route::get('/erp/tambahmobil',[erpController::class,'inputMobil'])->name('inputMobil');
         route::post('/erp/prosesTambahMobil',[erpController::class,'tambahMobil'])->name('prosesTambahMobil');

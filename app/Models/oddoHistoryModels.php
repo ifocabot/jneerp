@@ -26,7 +26,7 @@ class OddoHistoryModels extends Model
 
     public function users(){
 
-        return $this->belongsto(User::class,'users_id');
+        return $this->belongsTo(User::class,'users_id');
     }
 
     public function vehicles(){
