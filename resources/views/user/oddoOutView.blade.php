@@ -46,7 +46,6 @@
         </div>
     </div>
 
-
     <div class="flex p-4 pt-8 pb-8 pl-6 ">
         <div class="flex items-center p-4 bg-blue-400 rounded-lg">
             <svg height="800px" width="800px" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg"
@@ -181,14 +180,251 @@
             <br>
             <input type="checkbox" id="checkbox"> Select All
         </div>
+
     </div>
 
+    <div class="flex p-4 pt-8 pb-8 pl-6">
+        <div class="flex items-center p-4 bg-blue-400 rounded-lg">
+            <svg width="800px" height="800px" viewBox="0 0 48.001 48.001" xmlns="http://www.w3.org/2000/svg"
+                fill="#000000" class="w-6 h-6">
+                <g id="SVGRepo_bgCarrier" stroke-width="0" />
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
+                <g id="SVGRepo_iconCarrier">
+                    <path id="area"
+                        d="M189,471a5.005,5.005,0,0,1-5-5V428a5.006,5.006,0,0,1,5-5h38a5.006,5.006,0,0,1,5,5v38a5.005,5.005,0,0,1-5,5Zm27-2h11a3,3,0,0,0,3-3V455H216Zm-15,0h14V455H201Zm-15-3a3,3,0,0,0,3,3h11V455H186Zm30-12h14V440H216Zm-4.293,0H215v-3.292Zm-4,0H211l-.353-.353,4-4L215,450v-3.293Zm-4,0H207l-.354-.353,8-8L215,446v-3.293ZM201,454h2l-.353-.353,12-12L215,442v-2h-.29a6.88,6.88,0,0,0,.219-1H215V425H201v14h.071a7.047,7.047,0,0,0,.219,1H201v3.292l1.271-1.27a7.068,7.068,0,0,0,.635.779l-1.552,1.553L201,444v3.293l3.331-3.331a6.88,6.88,0,0,0,.932.482l-3.91,3.91L201,448v3.292l6.073-6.073-.848-2.545a5,5,0,1,1,3.55,0L208,448l-.573-1.72-6.073,6.073L201,452Zm-15,0h14V440H186Zm19-16a3,3,0,1,0,3-3A3,3,0,0,0,205,438Zm11,1h14V428a3,3,0,0,0-3-3H216Zm-30-11v11h14V425H189A3,3,0,0,0,186,428Z"
+                        transform="translate(-184 -423)" fill="#ffffff" />
+                </g>
+            </svg>
+        </div>
 
+        <div class="w-full pl-2 ml-4">
+            <span class="font-bold">kondisi Body ( Kanan, kiri, depan, belakang ):</span>
+            <div class="flex pt-3">
+                <div class="flex items-center me-4">
+                    <input id="inline-body1-id" type="radio" value="1" name="kondisi_body"
+                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 ">
+                    <label for="inline-body1-id" class="text-sm font-medium text-gray-900 ms-2 ">Baik</label>
+                </div>
+                <div class="flex items-center me-4">
+                    <input id="inline-body2-id" type="radio" value="2" name="kondisi_body"
+                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 ">
+                    <label for="inline-body2-id" class="text-sm font-medium text-gray-900 ms-2">Kurang
+                        Baik</label>
+                </div>
+                <div class="flex items-center me-4">
+                    <input id="inline-body3-id" type="radio" value="3" name="kondisi_body"
+                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 ">
+                    <label for="inline-body3-id" class="text-sm font-medium text-gray-900 ms-2">Buruk</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex p-4 pt-8 pb-8 pl-6">
+        <div class="flex items-center p-4 bg-blue-400 rounded-lg">
+            <svg width="800px" height="800px" viewBox="0 0 48.001 48.001" xmlns="http://www.w3.org/2000/svg"
+                fill="#000000" class="w-6 h-6">
+                <g id="SVGRepo_bgCarrier" stroke-width="0" />
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
+                <g id="SVGRepo_iconCarrier">
+                    <path id="area"
+                        d="M189,471a5.005,5.005,0,0,1-5-5V428a5.006,5.006,0,0,1,5-5h38a5.006,5.006,0,0,1,5,5v38a5.005,5.005,0,0,1-5,5Zm27-2h11a3,3,0,0,0,3-3V455H216Zm-15,0h14V455H201Zm-15-3a3,3,0,0,0,3,3h11V455H186Zm30-12h14V440H216Zm-4.293,0H215v-3.292Zm-4,0H211l-.353-.353,4-4L215,450v-3.293Zm-4,0H207l-.354-.353,8-8L215,446v-3.293ZM201,454h2l-.353-.353,12-12L215,442v-2h-.29a6.88,6.88,0,0,0,.219-1H215V425H201v14h.071a7.047,7.047,0,0,0,.219,1H201v3.292l1.271-1.27a7.068,7.068,0,0,0,.635.779l-1.552,1.553L201,444v3.293l3.331-3.331a6.88,6.88,0,0,0,.932.482l-3.91,3.91L201,448v3.292l6.073-6.073-.848-2.545a5,5,0,1,1,3.55,0L208,448l-.573-1.72-6.073,6.073L201,452Zm-15,0h14V440H186Zm19-16a3,3,0,1,0,3-3A3,3,0,0,0,205,438Zm11,1h14V428a3,3,0,0,0-3-3H216Zm-30-11v11h14V425H189A3,3,0,0,0,186,428Z"
+                        transform="translate(-184 -423)" fill="#ffffff" />
+                </g>
+            </svg>
+        </div>
+        <div class="w-full pl-2 ml-4">
+            <span class="font-bold">kondisi Lampu Depan Kiri Kanan ( utama, kecil, sein ):</span>
+            <div class="flex pt-3">
+                <div class="flex items-center me-4">
+                    <input id="inline-lampukiri-1" type="radio" value="1" name="kondisi_lampu_depan"
+                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 ">
+                    <label for="inline-lampukiri-1" class="text-sm font-medium text-gray-900 ms-2 ">Baik</label>
+                </div>
+                <div class="flex items-center me-4">
+                    <input id="inline-lampukiri-2" type="radio" value="2" name="kondisi_lampu_depan"
+                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 ">
+                    <label for="inline-lampukiri-2" class="text-sm font-medium text-gray-900 ms-2">Kurang
+                        Baik</label>
+                </div>
+                <div class="flex items-center me-4">
+                    <input id="inline-lampukiri-3" type="radio" value="3" name="kondisi_lampu_depan"
+                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 ">
+                    <label for="inline-lampukiri-3" class="text-sm font-medium text-gray-900 ms-2">Buruk</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex p-4 pt-8 pb-8 pl-6">
+        <div class="flex items-center p-4 bg-blue-400 rounded-lg">
+            <svg width="800px" height="800px" viewBox="0 0 48.001 48.001" xmlns="http://www.w3.org/2000/svg"
+                fill="#000000" class="w-6 h-6">
+                <g id="SVGRepo_bgCarrier" stroke-width="0" />
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
+                <g id="SVGRepo_iconCarrier">
+                    <path id="area"
+                        d="M189,471a5.005,5.005,0,0,1-5-5V428a5.006,5.006,0,0,1,5-5h38a5.006,5.006,0,0,1,5,5v38a5.005,5.005,0,0,1-5,5Zm27-2h11a3,3,0,0,0,3-3V455H216Zm-15,0h14V455H201Zm-15-3a3,3,0,0,0,3,3h11V455H186Zm30-12h14V440H216Zm-4.293,0H215v-3.292Zm-4,0H211l-.353-.353,4-4L215,450v-3.293Zm-4,0H207l-.354-.353,8-8L215,446v-3.293ZM201,454h2l-.353-.353,12-12L215,442v-2h-.29a6.88,6.88,0,0,0,.219-1H215V425H201v14h.071a7.047,7.047,0,0,0,.219,1H201v3.292l1.271-1.27a7.068,7.068,0,0,0,.635.779l-1.552,1.553L201,444v3.293l3.331-3.331a6.88,6.88,0,0,0,.932.482l-3.91,3.91L201,448v3.292l6.073-6.073-.848-2.545a5,5,0,1,1,3.55,0L208,448l-.573-1.72-6.073,6.073L201,452Zm-15,0h14V440H186Zm19-16a3,3,0,1,0,3-3A3,3,0,0,0,205,438Zm11,1h14V428a3,3,0,0,0-3-3H216Zm-30-11v11h14V425H189A3,3,0,0,0,186,428Z"
+                        transform="translate(-184 -423)" fill="#ffffff" />
+                </g>
+            </svg>
+        </div>
+        <div class="w-full pl-2 ml-4">
+            <span class="font-bold">kondisi Lampu Belakang Kiri Kanan ( mundur, hazard, rem, sein ):</span>
+            <div class="flex pt-3">
+                <div class="flex items-center me-4">
+                    <input id="inline-lampukanan-1" type="radio" value="1" name="kondisi_lampu_belakang"
+                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 ">
+                    <label for="inline-lampukanan-1" class="text-sm font-medium text-gray-900 ms-2 ">Baik</label>
+                </div>
+                <div class="flex items-center me-4">
+                    <input id="inline-lampukanan-2" type="radio" value="2" name="kondisi_lampu_belakang"
+                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 ">
+                    <label for="inline-lampukanan-2" class="text-sm font-medium text-gray-900 ms-2">Kurang
+                        Baik</label>
+                </div>
+                <div class="flex items-center me-4">
+                    <input type="radio" id="inline-lampukanan-3" value="3" name="kondisi_lampu_belakang"
+                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 ">
+                    <label class="text-sm font-medium text-gray-900 ms-2" for="inline-lampukanan-3">Buruk</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex p-4 pt-8 pb-8 pl-6">
+        <div class="flex items-center p-4 bg-blue-400 rounded-lg">
+            <svg width="800px" height="800px" viewBox="0 0 48.001 48.001" xmlns="http://www.w3.org/2000/svg"
+                fill="#000000" class="w-6 h-6">
+                <g id="SVGRepo_bgCarrier" stroke-width="0" />
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
+                <g id="SVGRepo_iconCarrier">
+                    <path id="area"
+                        d="M189,471a5.005,5.005,0,0,1-5-5V428a5.006,5.006,0,0,1,5-5h38a5.006,5.006,0,0,1,5,5v38a5.005,5.005,0,0,1-5,5Zm27-2h11a3,3,0,0,0,3-3V455H216Zm-15,0h14V455H201Zm-15-3a3,3,0,0,0,3,3h11V455H186Zm30-12h14V440H216Zm-4.293,0H215v-3.292Zm-4,0H211l-.353-.353,4-4L215,450v-3.293Zm-4,0H207l-.354-.353,8-8L215,446v-3.293ZM201,454h2l-.353-.353,12-12L215,442v-2h-.29a6.88,6.88,0,0,0,.219-1H215V425H201v14h.071a7.047,7.047,0,0,0,.219,1H201v3.292l1.271-1.27a7.068,7.068,0,0,0,.635.779l-1.552,1.553L201,444v3.293l3.331-3.331a6.88,6.88,0,0,0,.932.482l-3.91,3.91L201,448v3.292l6.073-6.073-.848-2.545a5,5,0,1,1,3.55,0L208,448l-.573-1.72-6.073,6.073L201,452Zm-15,0h14V440H186Zm19-16a3,3,0,1,0,3-3A3,3,0,0,0,205,438Zm11,1h14V428a3,3,0,0,0-3-3H216Zm-30-11v11h14V425H189A3,3,0,0,0,186,428Z"
+                        transform="translate(-184 -423)" fill="#ffffff" />
+                </g>
+            </svg>
+        </div>
+        <div class="w-full pl-2 ml-4">
+            <span class="font-bold">kondisi Ban ( Belakang, Depan, Kiri, Kanan ):</span>
+            <div class="flex pt-3">
+                <div class="flex items-center me-4">
+                    <input id="inline-ban-1" type="radio" value="1" name="kondisi_ban"
+                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 ">
+                    <label for="inline-ban-1" class="text-sm font-medium text-gray-900 ms-2 ">Baik</label>
+                </div>
+                <div class="flex items-center me-4">
+                    <input id="inline-ban-2" type="radio" value="2" name="kondisi_ban"
+                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 ">
+                    <label for="inline-ban-2" class="text-sm font-medium text-gray-900 ms-2">Kurang
+                        Baik</label>
+                </div>
+                <div class="flex items-center me-4">
+                    <input id="inline-ban-3" type="radio" value="3" name="kondisi_ban"
+                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 ">
+                    <label for="inline-ban-3" class="text-sm font-medium text-gray-900 ms-2">Buruk</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex p-4 pt-8 pb-8 pl-6">
+        <div class="flex items-center p-4 bg-blue-400 rounded-lg">
+            <svg width="800px" height="800px" viewBox="0 0 48.001 48.001" xmlns="http://www.w3.org/2000/svg"
+                fill="#000000" class="w-6 h-6">
+                <g id="SVGRepo_bgCarrier" stroke-width="0" />
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
+                <g id="SVGRepo_iconCarrier">
+                    <path id="area"
+                        d="M189,471a5.005,5.005,0,0,1-5-5V428a5.006,5.006,0,0,1,5-5h38a5.006,5.006,0,0,1,5,5v38a5.005,5.005,0,0,1-5,5Zm27-2h11a3,3,0,0,0,3-3V455H216Zm-15,0h14V455H201Zm-15-3a3,3,0,0,0,3,3h11V455H186Zm30-12h14V440H216Zm-4.293,0H215v-3.292Zm-4,0H211l-.353-.353,4-4L215,450v-3.293Zm-4,0H207l-.354-.353,8-8L215,446v-3.293ZM201,454h2l-.353-.353,12-12L215,442v-2h-.29a6.88,6.88,0,0,0,.219-1H215V425H201v14h.071a7.047,7.047,0,0,0,.219,1H201v3.292l1.271-1.27a7.068,7.068,0,0,0,.635.779l-1.552,1.553L201,444v3.293l3.331-3.331a6.88,6.88,0,0,0,.932.482l-3.91,3.91L201,448v3.292l6.073-6.073-.848-2.545a5,5,0,1,1,3.55,0L208,448l-.573-1.72-6.073,6.073L201,452Zm-15,0h14V440H186Zm19-16a3,3,0,1,0,3-3A3,3,0,0,0,205,438Zm11,1h14V428a3,3,0,0,0-3-3H216Zm-30-11v11h14V425H189A3,3,0,0,0,186,428Z"
+                        transform="translate(-184 -423)" fill="#ffffff" />
+                </g>
+            </svg>
+        </div>
+        <div class="w-full pl-2 ml-4">
+            <span class="font-bold">Ketersediaan ban serep :</span>
+            <div class="flex pt-3">
+                <div class="flex items-center me-4">
+                    <input id="inline-radio" type="radio" value="1" name="kondisi_ban_serep"
+                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 ">
+                    <label for="inline-radio" class="text-sm font-medium text-gray-900 ms-2 ">Ada</label>
+                </div>
+                <div class="flex items-center me-4">
+                    <input id="inline-2-radio" type="radio" value="2" name="kondisi_ban_serep"
+                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 ">
+                    <label for="inline-2-radio" class="text-sm font-medium text-gray-900 ms-2">Kurang
+                        Baik</label>
+                </div>
+                <div class="flex items-center me-4">
+                    <input id="inline-3-radio" type="radio" value="3" name="kondisi_ban_serep"
+                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 ">
+                    <label for="inline-3-radio" class="text-sm font-medium text-gray-900 ms-2">Tidak Ada</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex p-4 pt-8 pb-8 pl-6">
+        <div class="flex items-center p-4 bg-blue-400 rounded-lg">
+            <svg width="800px" height="800px" viewBox="0 0 48.001 48.001" xmlns="http://www.w3.org/2000/svg"
+                fill="#000000" class="w-6 h-6">
+                <g id="SVGRepo_bgCarrier" stroke-width="0" />
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
+                <g id="SVGRepo_iconCarrier">
+                    <path id="area"
+                        d="M189,471a5.005,5.005,0,0,1-5-5V428a5.006,5.006,0,0,1,5-5h38a5.006,5.006,0,0,1,5,5v38a5.005,5.005,0,0,1-5,5Zm27-2h11a3,3,0,0,0,3-3V455H216Zm-15,0h14V455H201Zm-15-3a3,3,0,0,0,3,3h11V455H186Zm30-12h14V440H216Zm-4.293,0H215v-3.292Zm-4,0H211l-.353-.353,4-4L215,450v-3.293Zm-4,0H207l-.354-.353,8-8L215,446v-3.293ZM201,454h2l-.353-.353,12-12L215,442v-2h-.29a6.88,6.88,0,0,0,.219-1H215V425H201v14h.071a7.047,7.047,0,0,0,.219,1H201v3.292l1.271-1.27a7.068,7.068,0,0,0,.635.779l-1.552,1.553L201,444v3.293l3.331-3.331a6.88,6.88,0,0,0,.932.482l-3.91,3.91L201,448v3.292l6.073-6.073-.848-2.545a5,5,0,1,1,3.55,0L208,448l-.573-1.72-6.073,6.073L201,452Zm-15,0h14V440H186Zm19-16a3,3,0,1,0,3-3A3,3,0,0,0,205,438Zm11,1h14V428a3,3,0,0,0-3-3H216Zm-30-11v11h14V425H189A3,3,0,0,0,186,428Z"
+                        transform="translate(-184 -423)" fill="#ffffff" />
+                </g>
+            </svg>
+        </div>
+        <div class="w-full pl-2 ml-4">
+            <span class="font-bold">kondisi Kaca Mobil & Kaca Spion</span>
+            <div class="flex pt-3">
+                <div class="flex items-center me-4">
+                    <input id="inline-kaca-1" type="radio" value="1" name="kondisi_kaca"
+                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 ">
+                    <label for="inline-kaca-1" class="text-sm font-medium text-gray-900 ms-2 ">Baik</label>
+                </div>
+                <div class="flex items-center me-4">
+                    <input id="inline-kaca-2" type="radio" value="2" name="kondisi_kaca"
+                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 ">
+                    <label for="inline-kaca-2" class="text-sm font-medium text-gray-900 ms-2">Kurang
+                        Baik</label>
+                </div>
+                <div class="flex items-center me-4">
+                    <input id="inline-kaca-3" type="radio" value="3" name="kondisi_kaca"
+                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 ">
+                    <label for="inline-kaca-3" class="text-sm font-medium text-gray-900 ms-2">Buruk</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex p-4 pt-8 pb-8 pl-6">
+        <div class="flex items-center p-4 bg-blue-400 rounded-lg">
+            <svg width="800px" height="800px" viewBox="0 0 48.001 48.001" xmlns="http://www.w3.org/2000/svg"
+                fill="#000000" class="w-6 h-6">
+                <g id="SVGRepo_bgCarrier" stroke-width="0" />
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
+                <g id="SVGRepo_iconCarrier">
+                    <path id="area"
+                        d="M189,471a5.005,5.005,0,0,1-5-5V428a5.006,5.006,0,0,1,5-5h38a5.006,5.006,0,0,1,5,5v38a5.005,5.005,0,0,1-5,5Zm27-2h11a3,3,0,0,0,3-3V455H216Zm-15,0h14V455H201Zm-15-3a3,3,0,0,0,3,3h11V455H186Zm30-12h14V440H216Zm-4.293,0H215v-3.292Zm-4,0H211l-.353-.353,4-4L215,450v-3.293Zm-4,0H207l-.354-.353,8-8L215,446v-3.293ZM201,454h2l-.353-.353,12-12L215,442v-2h-.29a6.88,6.88,0,0,0,.219-1H215V425H201v14h.071a7.047,7.047,0,0,0,.219,1H201v3.292l1.271-1.27a7.068,7.068,0,0,0,.635.779l-1.552,1.553L201,444v3.293l3.331-3.331a6.88,6.88,0,0,0,.932.482l-3.91,3.91L201,448v3.292l6.073-6.073-.848-2.545a5,5,0,1,1,3.55,0L208,448l-.573-1.72-6.073,6.073L201,452Zm-15,0h14V440H186Zm19-16a3,3,0,1,0,3-3A3,3,0,0,0,205,438Zm11,1h14V428a3,3,0,0,0-3-3H216Zm-30-11v11h14V425H189A3,3,0,0,0,186,428Z"
+                        transform="translate(-184 -423)" fill="#ffffff" />
+                </g>
+            </svg>
+        </div>
+        <div class="w-full pl-2 ml-4">
+            <span class="font-bold">Keterangan : </span>
+            <textarea id="message" rows="3"
+                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Jika ada yang kurang baik / buruk, Mohon dijelaskan disini. Jika tidak ada diabaikan saja."
+                name="keterangan"></textarea>
+        </div>
+    </div>
     <div class="left-0 flex p-4 pt-8 pb-8 pl-6">
         <button type="submit" class="p-4 text-white bg-blue-500 rounded-lg">Kirim Data</button>
     </div>
 </form>
-
 
 
 @include('layouts.footerUser')

@@ -9,18 +9,18 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('oddo_history', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
-            $table->string('kode_oddo');
+            $table->timestamps(0);
             $table->integer('users_id');
-            $table->integer('kendaraan_id');
-            $table->string('areas_id');
-            $table->integer('oddoOut_id');
-            $table->integer('oddoIn_id');
-            $table->string('safetyTools_id');
+            $table->integer('oddoout_id')->nullable();
+            $table->integer('oddoin_id')->nullable();
+            $table->integer('vehicles_id')->nullable();
+            $table->bigInteger('total_kilometer')->nullable();
+            $table->float('convert_bensin')->nullable();
+            $table->bigInteger('cost')->nullable();
         });
     }
 
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('oddo_models');
+        Schema::dropIfExists('oddo_history');
     }
 };

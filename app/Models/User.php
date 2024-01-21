@@ -57,4 +57,20 @@ class User extends Authenticatable
     {
         return $this->belongsTo(gasolineHistoryModels::class,'users_id');
     }
+
+    public function tickets()
+    {
+        return $this->belongsTo(tickets::class, 'owner_id');
+    }
+
+    public function tickethistory()
+    {
+        return $this->belongsTo(tickets::class, 'owner_id');
+    }
+
+    public function target()
+    {
+        return $this->belongsTo(tickets::class,'target_id');
+    }
+
 }

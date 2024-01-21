@@ -201,7 +201,7 @@ class oddoController extends Controller
             'content' => $contentMessageifError
         ];
         // Kirim request ke API endpointContent Message
-        $response = Http::post('http://103.191.63.4:9090/client/sendMessage/waweb-fleet', $apiData);
+        $response = Http::post('http://103.191.63.18:9191/client/sendMessage/wawebjs', $apiData);
 
     $hasValueOtherThanTwo = false;
     foreach ($validatedData2 as $field => $value) {
@@ -221,7 +221,7 @@ class oddoController extends Controller
     }
 
     if ($hasValueOtherThanTwo && $hasValueOtherThanThree) {
-        Http::post('http://103.191.63.4:9090/client/sendMessage/waweb-fleet', $apiData2);
+        Http::post('http://103.191.63.18:9191/client/sendMessage/wawebjs', $apiData2);
     }
         // Periksa apakah request berhasil
         if ($response->successful()) {
@@ -346,7 +346,7 @@ class oddoController extends Controller
             'content' => $notificationMessage
         ];
         // Kirim request ke API endpoint
-        $response = Http::post('http://103.191.63.4:9090/client/sendMessage/waweb-fleet', $apiData);
+        $response = Http::post('http://103.191.63.18:9191/client/sendMessage/wawebjs', $apiData);
 
         return redirect('/app')->with('success', 'Data oddo in berhasil ditambah', $response);
 

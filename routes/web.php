@@ -5,13 +5,15 @@
     use App\Http\Controllers\kendaraanController;
     use App\Http\Controllers\oddoController;
     use App\Http\Controllers\ProfileController;
-    use App\Http\Controllers\userController;
+use App\Http\Controllers\ticketController;
+use App\Http\Controllers\ticketingController;
+use App\Http\Controllers\userController;
     use Illuminate\Support\Facades\Route;
 
     /*
     |--------------------------------------------------------------------------
     | Web Routes
-    |--------------------------------------------------------------------------
+    |-------------------------------------------------------a-------------------
     |
     | Here is where you can register web routes for your application. These
     | routes are loaded by the RouteServiceProvider and all of them will
@@ -38,6 +40,9 @@
 
         //dashboard
         route::get('/erp',[erpController::class,'index'])->name('erp.dashboard');
+        Route::get('/erp/get-chart-data/{carId}', [erpController::class, 'getChartData'])->name('chartbensin');
+        Route::get('/erp/get-chart-data-ratio/{carId}', [erpController::class, 'getChartDataRatio'])->name('chartratio');
+
 
         //oddoModul
         route::get('/erp/oddohistory',[erpController::class,'oddoHistoryview'])->name('oddo.history');
@@ -45,7 +50,6 @@
 
         //mobilModul
         route::get('/erp/vehicles',[erpController::class,'vehiclesview'])->name('oddo.vehicles');
-        route::get('/erp/vehicles/{id}',[erpController::class,'detailMobilPenuh'])->name('detailMobilPenuh');
         route::get('/erp/vehiclesajax',[erpController::class,'vehiclesAjax'])->name('oddo.vehicles.data');
         route::get('/erp/tambahmobil',[erpController::class,'inputMobil'])->name('inputMobil');
         route::post('/erp/prosesTambahMobil',[erpController::class,'tambahMobil'])->name('prosesTambahMobil');
@@ -69,6 +73,22 @@
         //areaModul
         route::get('erp/daftararea',[erpController::class,'listArea'])->name('daftarArea');
         route::post('erp/daftararea/proses',[erpController::class,'addArea'])->name('tambahArea');
+
+        //checklist
+        route::get('erp/checklist',[erpController::class,'CheckList'])->name('CheckList');
+
+        //ticketing
+        route::get('erp/ticketDashboard',[ticketController::class,'index'])->name('ticket.dashboard');
+        route::get('erp/ticket/create',[ticketController::class,'create'])->name('ticket.create');
+        route::post('erp/ticket/postTicket',[ticketController::class,'store'])->name('ticket.post');
+        route::get('erp/ticket/inbox',[ticketController::class,'inbox'])->name('ticket.inbox');
+        route::get('/erp/ticket/ticketajax',[ticketController::class,'ticketAjax'])->name('ticket.ajax');
+        route::get('/erp/tickets/{id}',[ticketController::class,'viewTicket'])->name('ticket.view');
+        route::get('/erp/ticket/ticketoutgoingajax',[ticketController::class,'outgoingTicketAjax'])->name('ticket.out.ajax');
+        Route::post('/erp/ticketaccept/{id}', [TicketController::class, 'acceptTicket'])->name('ticket.accept');
+        Route::post('/erp/tickethold/{id}', [TicketController::class, 'holdTicket'])->name('ticket.hold');
+        Route::post('/erp/ticketclose/{id}', [TicketController::class, 'closeTicket'])->name('ticket.close');
+
     });
 
     route::middleware(['auth','role:user,management,super_admin'])->group(function(){
@@ -88,6 +108,10 @@
 
         route::get('/app/bensininput',[bensinController::class,'index'])->name('inputbensin');
         route::post('/app/prosesbensininput',[bensinController::class,'store'])->name('prosesinputbensin');
+
+        //Input Ceklis
+
+        Route::get('/app/checklistkendaraan',[oddoController::class,'cekliskendaraan'])->name('inputcekliskendaraan');
     });
 
 

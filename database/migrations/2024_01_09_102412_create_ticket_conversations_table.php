@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('safetytools', function (Blueprint $table) {
+        Schema::create('ticket_conversations', function (Blueprint $table) {
             $table->id();
+            $table->integer('ticket_id');
+            $table->text('conversation');
             $table->timestamps();
-            $table->string('nama_alat');
         });
     }
 
@@ -23,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('safety_tools_models');
+        Schema::dropIfExists('ticket_conversations');
     }
 };

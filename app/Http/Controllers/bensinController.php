@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\areaModels;
 use App\Models\gasolineModels;
 use App\Models\kendaraanModels;
 use App\Models\User;
@@ -48,7 +49,8 @@ class bensinController extends Controller
             'gasoline_id' => 'required',
             'oddo_terakhir' => 'required',
             'total_pembelian' => 'required',
-            'total_liter' => 'required',
+            'lokasi_pengisian' => 'required',
+            'tanggal' => 'required'
         ]);
 
         // Process and save the uploaded image
@@ -58,15 +60,28 @@ class bensinController extends Controller
         $filePath = 'uploads/bensin/' . $fileName;
         Storage::disk('public')->put($filePath, $img->stream());
 
+        // Find the most recent record, if any
+        $data_terakhir = GasolineHistoryModels::where('vehicles_id', $validatedData['vehicles_id'])
+            ->orderBy('tanggal', 'desc')
+            ->first(); // Use first() instead of take(1)->get();
+
+        // If there is no previous record, set values to zero or handle accordingly
+        $penggunaan = $data_terakhir ? $validatedData['oddo_terakhir'] - $data_terakhir->oddo_terakhir : 0;
+        $harga = GasolineModels::find($validatedData['gasoline_id']);
+        $total_liter = $harga ? $validatedData['total_pembelian'] / $harga->harga : 0;
+
         // Save the Oddo In data to the database
         $model = new gasolineHistoryModels();
         $model->fill($validatedData);
+        $model->total_liter = $total_liter;
+        $model->total_penggunaan = $penggunaan;
+        $model->ratio = $data_terakhir ? $penggunaan / $total_liter : 0; // Set ratio to zero if no previous record
         $model->foto_struk = $filePath;
         $model->save();
 
-    return redirect('/app')->with('success', 'Data bensin berhasil ditambah');
-
+        return redirect('/app')->with('success', 'Data bensin berhasil ditambah');
     }
+
 
     /**
      * Display the specified resource.

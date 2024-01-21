@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('oddoIn', function (Blueprint $table) {
+        Schema::create('ticket_statuses', function (Blueprint $table) {
             $table->id();
+            $table->string('ticket_status');
             $table->timestamps();
-            $table->integer('oddo_meter_in');
-            $table->string('foto_oddo_in');
         });
     }
 
@@ -24,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('oddo_in_models');
+        Schema::dropIfExists('ticket_statuses');
     }
 };

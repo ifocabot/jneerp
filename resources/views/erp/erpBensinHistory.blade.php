@@ -23,13 +23,18 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Plat Nomor</th>
+                                        <th>Model Kendaraan</th>
+                                        <th>Tipe Kendaraan</th>
                                         <th>Driver</th>
                                         <th>Tipe Bensin</th>
                                         <th>Oddo Meter</th>
                                         <th>Total Pembelian</th>
                                         <th>Total dalam Liter</th>
+                                        <th>Total Penggunaan (KM)</th>
+                                        <th>Ratio</th>
                                         <th>Lokasi</th>
-                                        <th>Timestamp</th>
+                                        <th>Weeknum</th>
+                                        <th>Tanggal Pembelian</th>
                                         <th>Foto struk</th>
                                     </tr>
                                 </thead>

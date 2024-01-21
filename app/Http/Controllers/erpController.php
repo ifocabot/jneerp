@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\areaModels;
 use App\Models\gasolineHistoryModels;
 use App\Models\gasolineModels;
+use App\Models\history_checklist;
 use App\Models\kendaraanModels;
 use App\Models\oddoHistoryModels;
 use App\Models\tipekendaraanModels;
@@ -22,7 +23,7 @@ class erpController extends Controller
     //DASHBOARD MODUl START
 
     public function index(){
-        $kendaraan = kendaraanModels::all()->count();
+        $kendaraan = kendaraanModels::where('is_active','=','1')->count();
         $user = user::all()->count();
         $area = areaModels::all()->count();
 
@@ -72,20 +73,20 @@ class erpController extends Controller
         // Modifikasi query untuk mendapatkan total pembelian per hari
         $gasoline1Data = DB::table('gasoline_history')
             ->where('gasoline_id', '=', '1')
-            ->selectRaw('DATE(created_at) as tanggal, SUM(total_pembelian) as total_pembelian_per_hari')
+            ->selectRaw('DATE(tanggal) as tanggal, SUM(total_pembelian) as total_pembelian_per_hari')
             ->groupBy(
-                DB::raw('DATE(created_at)'),
-                DB::raw('CASE WHEN MOD(DAY(created_at) - 6, 7) IN (0, 1) THEN 1 WHEN MOD(DAY(created_at) - 8, 7) IN (0, 1) THEN 2 ELSE 3 END')
+                DB::raw('DATE(tanggal)'),
+                DB::raw('CASE WHEN MOD(DAY(tanggal) - 6, 7) IN (0, 1) THEN 1 WHEN MOD(DAY(tanggal) - 8, 7) IN (0, 1) THEN 2 ELSE 3 END')
             )
             ->orderBy('tanggal')
             ->get();
 
         $gasoline2Data = DB::table('gasoline_history')
             ->where('gasoline_id', '=', '2')
-            ->selectRaw('DATE(created_at) as tanggal, SUM(total_pembelian) as total_pembelian_per_hari')
+            ->selectRaw('DATE(tanggal) as tanggal, SUM(total_pembelian) as total_pembelian_per_hari')
             ->groupBy(
-                DB::raw('DATE(created_at)'),
-                DB::raw('CASE WHEN MOD(DAY(created_at) - 6, 7) IN (0, 1) THEN 1 WHEN MOD(DAY(created_at) - 8, 7) IN (0, 1) THEN 2 ELSE 3 END')
+                DB::raw('DATE(tanggal)'),
+                DB::raw('CASE WHEN MOD(DAY(tanggal) - 6, 7) IN (0, 1) THEN 1 WHEN MOD(DAY(tanggal) - 8, 7) IN (0, 1) THEN 2 ELSE 3 END')
             )
             ->orderBy('tanggal')
             ->get();
@@ -96,27 +97,49 @@ class erpController extends Controller
         $datesGasoline2 = $gasoline2Data->pluck('tanggal');
         $totalPembelianGasoline2 = $gasoline2Data->pluck('total_pembelian_per_hari');
 
+        $vehicles = kendaraanModels::with('type_vehicles')->get();
+
+        $vehiclestype = kendaraanModels::select('type_vehicles_id')->distinct()->get();
 
         return view('erp.erpDashboard', compact(
-            'kendaraan',
-            'user',
-            'kendaraanavailable',
-            'oddohistory',
-            'kendaraansakit',
-            'area',
-            'inboundData',
-            'outboundData',
-            'deliveryData',
-            'totalPembelianGasoline1',
-            'datesGasoline1',
-            'datesGasoline2',
-            'totalPembelianGasoline2'
+            'kendaraan', 'user', 'kendaraanavailable', 'oddohistory', 'kendaraansakit', 'area',
+            'inboundData', 'outboundData', 'deliveryData',
+            'totalPembelianGasoline1', 'datesGasoline1', 'datesGasoline2', 'totalPembelianGasoline2','vehicles','vehiclestype'
         ));
-
-
 
     }
 
+    public function getChartData($carId)
+    {
+        $data = gasolineHistoryModels::where('vehicles_id', $carId)
+            ->selectRaw('DATE(tanggal) as date, SUM(total_pembelian) as total_pembelian')
+            ->groupBy('date')
+            ->get();
+
+        $labels = $data->pluck('date')->toArray();
+        $values = $data->pluck('total_pembelian')->toArray();
+
+        return response()->json([
+            'labels' => $labels,
+            'data' => $values,
+        ]);
+    }
+
+        public function getChartDataRatio($carId)
+    {
+        $data = gasolineHistoryModels::where('vehicles_id', $carId)
+            ->selectRaw('DATE(tanggal) as date, SUM(ratio) as ratio')
+            ->groupBy('date')
+            ->get();
+
+        $labels = $data->pluck('date')->toArray();
+        $values = $data->pluck('ratio')->toArray();
+
+        return response()->json([
+            'labels' => $labels,
+            'data' => $values,
+        ]);
+    }
     //DASHBOARD MODUL END
 
     // ODDO MODUL START
@@ -158,7 +181,7 @@ class erpController extends Controller
             });
         }
 
-        $data = $query->take(1700)->get(); // Adjust the limit as needed
+        $data = $query->take(2000)->get(); // Adjust the limit as needed
 
         return Datatables::of($data)
             ->addIndexColumn()
@@ -395,8 +418,9 @@ class erpController extends Controller
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
 
+
         // Start with the base query
-        $bensinQuery = gasolineHistoryModels::with(['users', 'gasoline', 'vehicles'])->orderByDesc('created_at');
+        $bensinQuery = gasolineHistoryModels::with(['users', 'gasoline', 'vehicles','vehicles.type_vehicles'])->orderByDesc('created_at');
 
         // Apply date filters if start_date and end_date are provided
         if ($startDate) {
@@ -412,8 +436,8 @@ class erpController extends Controller
 
         return Datatables::of($data)
             ->addIndexColumn()
-            ->addColumn('created_at', function ($row) {
-                return $row->created_at ? $row->created_at->format('d-m-Y H:i:s ') : null;
+            ->addColumn('tanggal_2', function ($row) {
+                return $row->tanggal ? 'Week ' . date('W', strtotime($row->tanggal)) . ' Year ' . date('Y', strtotime($row->tanggal)) : null;
             })
             ->addColumn('sequence', function($row) {
                 return $row->id; // Use an appropriate field for sequence.
@@ -519,5 +543,17 @@ class erpController extends Controller
 
     }
     //AREA MODUL END
+
+    //Checklist
+
+    public function CheckList(){
+
+        $check = history_checklist::all();
+
+        return view('erp.erpCheckList',compact(
+            'check'
+        ));
+
+    }
 
 }

@@ -9,13 +9,12 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('gasoline', function (Blueprint $table) {
+        Schema::create('safetytools', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
-            $table->string('nama_bensin');
-            $table->integer('harga');
+            $table->timestamps(0);
+            $table->string('nama_alat');
         });
     }
 
@@ -24,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('safety_tools_models');
+        Schema::dropIfExists('safetytools');
     }
 };

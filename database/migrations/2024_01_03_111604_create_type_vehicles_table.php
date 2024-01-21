@@ -9,11 +9,11 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('type_vehicles', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->timestamps(0);
             $table->string('nama_tipe');
             $table->integer('ratio');
         });
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('safety_tools_models');
+        Schema::dropIfExists('type_vehicles');
     }
 };

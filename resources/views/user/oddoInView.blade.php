@@ -110,10 +110,12 @@
             </svg>
         </div>
         <div class="w-full pl-2 ml-4">
-            <span class="font-bold">Area : </span>
+            <span class="font-bold">Posisi sekarang : </span>
             <select class="w-full js-example-basic-single" name="areas_id">
                 <option value="57">SPC Kresek</option>
                 <option value="58">PCK 2</option>
+                <option value="107">SPBU Puri</option>
+                <option value="108">SPBU Kresek</option>
                 @foreach ($area as $k)
                 @if ($k->div_area == $user->division)
                 <option value="{{ $k->id }}">{{ $k->nama_area }}</option>
