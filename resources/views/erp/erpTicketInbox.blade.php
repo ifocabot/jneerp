@@ -184,7 +184,7 @@
         processing: true,
         serverSide: true,
         responsive: true,
-        order: [[6, "desc"]],
+        order: [[5, "desc"]],
         dom: 'Bfrtip',
         fixedColumns: {
             heightMatch: 'none'

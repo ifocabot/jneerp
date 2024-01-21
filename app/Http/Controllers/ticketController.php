@@ -57,7 +57,7 @@ class ticketController extends Controller
         $validatedData = $request->validate([
             'subject' =>'required',
             'target_id' => 'required',
-            'cc' => 'required|array',
+            'cc' => 'nullable|array', // Menjadikan 'cc' opsional
             'priority_id' => 'required',
             'help_topic_id' => 'required',
             'department_id' => 'required',
@@ -67,7 +67,9 @@ class ticketController extends Controller
             'due_date' => 'date'
         ]);
 
-        $cc_user = implode(',', $validatedData['cc']);
+        // Periksa apakah 'cc' diset atau tidak sebelum menggabungkan
+        $cc_user = isset($validatedData['cc']) ? implode(',', $validatedData['cc']) : '';
+
         $randomNumber = '#TCKT-' . rand(1000, 9999) . '-' . now()->format('s') . now()->format('i') . now()->format('H');
 
         $model = new tickets();
@@ -87,6 +89,7 @@ class ticketController extends Controller
         return redirect()->route('ticket.create');
     }
 
+
     /**
      * Display the specified resource.
      */
@@ -94,8 +97,9 @@ class ticketController extends Controller
     {
         $priority = Priority::all();
         $status = TicketStatus::all();
+        $id = auth()->id();
 
-        $tickets = Tickets::whereIn('ticket_status_id', [1, 2, 5, 3])->get();
+        $tickets = Tickets::where('target_id',$id)->whereIn('ticket_status_id', [1, 2, 5, 3])->get();
 
         $incomingTickets = $tickets->where('ticket_status_id', 1)->count();
         $accepted = $tickets->where('ticket_status_id', 2)->count();

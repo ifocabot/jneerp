@@ -194,9 +194,9 @@
        var test = $('#ticketHistory').DataTable({
         pageLength: 6,
         processing: true,
-        serverSide: true,
+        serverSide: false,
         responsive: true,
-        order: [[6, "desc"]],
+        order: [[5, "desc"]],
         dom: 'Bfrtip',
         fixedColumns: {
             heightMatch: 'none'
@@ -258,7 +258,8 @@
             },
             {
                 data: 'target_id',
-                name: 'target_id'
+                name: 'target_id',
+                orderable: true
             },
             {
                 data: 'subject',
@@ -302,25 +303,6 @@
         ajax: {
             url: '{{ route("ticket.out.ajax") }}',
             type: 'GET',
-            data: function(d) {
-                // Add filter parameters to the AJAX request if the checkbox is checked
-                if ($('#enableCategoryFilter').is(':checked')) {
-                    d.categoryFilter = $('#categoryFilter').val();
-                }
-
-                if ($('#enableStatusFilter').is(':checked')) {
-                    d.statusFilter = $('#statusFilter').val();
-                }
-                // Add date range filter
-                if ($('#enableDateFilter').is(':checked')) {
-                    var dateRange = $('#dateRange').val();
-                    if (dateRange) {
-                        var dateRangeArray = dateRange.split(' - ');
-                        d.dateRangeFilterStart = moment(dateRangeArray[0], 'YYYY-MM-DD').format('YYYY-MM-DD');
-                        d.dateRangeFilterEnd = moment(dateRangeArray[1], 'YYYY-MM-DD').format('YYYY-MM-DD');
-                    }
-                }
-            }
         }
     });
 });
