@@ -17,19 +17,22 @@ class InboxCountServiceProvider extends ServiceProvider
 public function boot()
 {
     view()->composer('*', function ($view) {
+        // Inisialisasi inboxCount dengan nilai default
+        $inboxCount = 0;
+
         // Pengecekan apakah pengguna telah terotentikasi
         if (Auth::check()) {
-            $inbox = tickets::where('target_id', Auth::user()->id)
-                ->where('is_it_accepted', 0)
+            // Mencari jumlah tiket di inbox yang belum diterima
+            $inboxCount = tickets::where('target_id', Auth::user()->id)
+                ->where('is_it_accepted', false) // Sesuaikan dengan tipe data kolom is_it_accepted
                 ->count();
-        } else {
-            $inbox = 0; // Set nilai default jika pengguna belum terotentikasi
         }
 
-        //...with this variable
-        $view->with('inboxCount', $inbox);
+        // Mengirimkan variabel 'inboxCount' ke semua view
+        $view->with('inboxCount', $inboxCount);
     });
 }
+
 
 
     /**

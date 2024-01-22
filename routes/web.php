@@ -5,9 +5,9 @@
     use App\Http\Controllers\kendaraanController;
     use App\Http\Controllers\oddoController;
     use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ticketController;
-use App\Http\Controllers\ticketingController;
-use App\Http\Controllers\userController;
+    use App\Http\Controllers\ticketController;
+    use App\Http\Controllers\ticketingController;
+    use App\Http\Controllers\userController;
     use Illuminate\Support\Facades\Route;
 
     /*

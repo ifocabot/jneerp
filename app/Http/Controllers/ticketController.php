@@ -12,7 +12,10 @@ use App\Models\ticketsType;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use PHPUnit\Framework\Attributes\Ticket;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Log;
 
 
 class ticketController extends Controller
@@ -86,9 +89,47 @@ class ticketController extends Controller
         $history->icon_id = 4;
         $history->save();
 
+        $userPengirim = User::find($userId);
+        $user = User::find($validatedData['target_id']);
+        $priority = Priority::find($validatedData['priority_id']);
+
+
+        if ($user) {
+            // Retrieve user information
+            $phoneNumber = $user->phone_number;
+            $priorityType = $priority->priority_type;
+            $pengirim = $userPengirim->name;
+            $penerima = $user->name;
+
+
+            // Compose notification message
+            $notificationMessage = "[NOTIFIKASI BOT] \n\nHello {$penerima}!\n\nGreat news! {$pengirim} has just created a new ticket that requires your attention:\n\nSubject: '{$validatedData['subject']}'\nPriority: {$priorityType}\nDue Date: " . ($validatedData['due_date'] ?? 'Not specified') . ".\n\nPlease review and accept the ticket as soon as possible by clicking \n[this link]\n" . url('erp/tickets/' . $model->id) . ".\n\nThank you!";
+
+            // Prepare API data
+            $apiData = [
+                'chatId' => $phoneNumber . '@c.us',
+                'contentType' => 'string',
+                'content' => $notificationMessage,
+            ];
+
+            // Send notification to API
+            $response = Http::post('http://103.191.63.4:9090/client/sendMessage/waweb-fleet', $apiData);
+
+            // Check the API response
+            if ($response->successful()) {
+                Log::info('Notification sent successfully: ' . $response->body());
+            } else {
+                Log::error('Failed to send notification: ' . $response->status() . ' ' . $response->body());
+            }
+
+        } else {
+            // Handle the case when the user is not found
+            // You may want to log an error or handle it in another way
+        }
+
+
         return redirect()->route('ticket.create');
     }
-
 
     /**
      * Display the specified resource.
@@ -235,14 +276,32 @@ class ticketController extends Controller
      */
     public function viewTicket(string $id)
     {
-        $ticket = tickets::with(['priority', 'status', 'user','helpTopic'])->findorfail($id);
-        $history = tickethistory::with(['user','icon'])->where('ticket_id',$id)->orderBy('created_at','asc')->get();
+        $ticket = tickets::with(['priority', 'status', 'user', 'helpTopic'])->findorfail($id);
 
-        return view('erp.erpTicketView',compact(
-            'ticket',
-            'history'
-        ));
+        // Check if the authenticated user has the right to view the ticket
+        $authenticatedUserId = auth()->id();
+
+        // Check if the authenticated user is the owner, target, or in the CC list of the ticket
+        if (
+            $authenticatedUserId == $ticket->owner_id ||
+            $authenticatedUserId == $ticket->target_id ||
+            (
+                is_array($ticket->cc) && in_array($authenticatedUserId, $ticket->cc)
+            ) ||
+            (
+                is_string($ticket->cc) && $authenticatedUserId == $ticket->cc
+            )
+        ) {
+            // User is authorized to view the ticket
+            $history = tickethistory::with(['user', 'icon'])->where('ticket_id', $id)->orderBy('created_at', 'asc')->get();
+
+            return view('erp.erpTicketView', compact('ticket', 'history'));
+        } else {
+            // User is not authorized, return a 401 Unauthorized response
+            abort(401, 'You do not have permission to access this ticket.');
+        }
     }
+
 
 
     public function acceptTicket($id)

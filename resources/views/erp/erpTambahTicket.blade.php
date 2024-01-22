@@ -169,7 +169,7 @@
                                 <thead>
                                     <tr role="row">
                                         <th>No</th>
-                                        <th>Dari</th>
+                                        <th>Tujuan</th>
                                         <th>Subject</th>
                                         <th>Priority</th>
                                         <th>Due Date</th>

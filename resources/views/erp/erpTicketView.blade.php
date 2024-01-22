@@ -10,6 +10,17 @@
                 <div class="mb-0 card">
                     <div class="card-body">
                         <div class="d-flex justify-content-end">
+
+                            @php
+                            $authenticatedUserId = auth()->id();
+                            $isOwner = $authenticatedUserId == $ticket->owner_id;
+                            $isTarget = $authenticatedUserId == $ticket->target_id;
+                            $ticketStatus = $ticket->ticket_status_id;
+                            $isAccepted = in_array($ticketStatus, [2, 5, 3]);
+                            @endphp
+
+                            @if ($isOwner || $isTarget)
+                            {{-- User is the owner or target --}}
                             <form action="{{ route('ticket.accept', ['id'=> $ticket->id]) }}" method="POST">
                                 @csrf
                                 @method('POST')
@@ -38,6 +49,19 @@
                                     <i class="fas fa-times"></i> Close Ticket
                                 </button>
                             </form>
+                            @else
+                            {{-- User is not the owner or target, disable all buttons --}}
+                            @foreach(['accept', 'hold', 'close'] as $action)
+                            <button
+                                class="mr-2 btn btn-{{ $action == 'accept' ? 'success' : ($action == 'hold' ? 'dark' : 'danger') }} btn-lg"
+                                disabled>
+                                <i class="fas {{ $action == 'close' ? 'fa-times' : 'fa-check' }}"></i> {{
+                                ucfirst($action)
+                                }}
+                            </button>
+                            @endforeach
+                            @endif
+
                         </div>
                     </div>
                 </div>
